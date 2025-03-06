@@ -6,6 +6,14 @@ pipeline{
     }
 
     stages{
+        satage{
+            steps('clean workspace'){
+                cleanWs()
+            }
+        }
+    }
+
+    stages{
         stage('clone'){
             steps{
                 git 'https://github.com/priyanka462002/chatroom.git'
@@ -19,6 +27,11 @@ pipeline{
         stage('test'){
             steps{
                 sh 'mvn test'
+            }
+        }
+        stages{
+            steps{
+                sh 'trivy fs --format table -o fs.html .'
             }
         }
         stage('package'){
