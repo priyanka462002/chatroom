@@ -6,23 +6,16 @@ pipeline{
     }
 
     stages{
-        stage('clean workspace'){
+        stage ('clean workspace'){
             steps{
                 cleanWs()
             }
-
         }
-        
-            
-        
-    }
-
-    
         stage('clone'){
             steps{
                 git 'https://github.com/priyanka462002/chatroom.git'
             }
-        
+        }
         stage('compile'){
             steps{
                 sh 'mvn clean compile'
@@ -35,7 +28,7 @@ pipeline{
         }
         stage('trivy scan files'){
             steps{
-                sh 'trivy fs --format table -o fs.html .'
+                sh 'trivy fs --format table  -o fs.html .' 
             }
         }
         stage('package'){
@@ -47,7 +40,6 @@ pipeline{
             steps{
                 sh 'cd target && mv *.war /usr/local/tomcat/webapps/ROOT.war'
             }
-
         }
     }
 }
